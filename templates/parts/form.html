@@ -1,0 +1,14 @@
+{% if form %}
+    <!-- Form Errors -->
+
+    <!-- Display Form -->
+    {% csrf_token %}
+    <div class="row">
+        {% for field in form %}
+            <div class="input-field col s12">
+                {{ field }}
+                <label for="{{ field.id_for_label }}" data-error="wrong" data-success="right">{{ field.label }}</label>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <div class="row">
+        <div class="col s12">
+            <div style="padding: 35px;" class="card">
+                <div class="row">
+                    <div class="col s8 offset-l2">
+
+                        <a class="waves-effect waves-light btn" href="{% url 'salaried.index' %}"><i class="material-icons">arrow_back</i></a>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="row">
+                    <div class="col m8 offset-m2 s12">
+                        {% include 'parts/errors.html' %}
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {#{{ form.as_p }}#}
+
+                            {% include 'parts/form.html' %}
+
+                            <h4>Attached pieces</h4>
+
+
+                            {{ document_form_set.management_form }}
+                            <div>
+                                <div class="link-formset">
+
+                                    {% for doc in document_form_set %}
+                                        {% include 'parts/errors.html' with form=doc %}
+                                        <div class="card" style="padding: 30px">
+                                            {% include 'parts/form.html' with form=doc %}
+                                        </div>
+                                    {% endfor %}
+
+
+                                </div>
+                            </div>
+
+                            {% comment %}  <div class="card" style="padding: 30px">
+
+                                <label for="id_label" class="">{{ form_document.label.label }}:</label>
+                                <input type="text" name="label" maxlength="20" required="" id="id_label">
+
+                                <label for="id_description" class="">{{ form_document.description.label }}:</label>
+                                <textarea name="description"
+                                          cols="40" rows="10"
+                                          class="materialize-textarea"
+                                          required=""
+                                          id="id_description">
+                                </textarea>
+
+
+                                <label>{{ form_document.attached_piece.label }}</label>
+                                <div class="file-field input-field">
+                                    <div class="btn">
+                                        <span>Browse</span>
+                                        {{ form_document.attached_piece }}
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text"
+                                               placeholder="Upload multiple files"/>
+                                    </div>
+                                </div>
+                            </div>
+
+{% endcomment %}
+                            <div class="form-group row" style="float: right">
+                                <div class="col s9">
+                                    <button type="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+       

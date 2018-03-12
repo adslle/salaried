@@ -1,0 +1,141 @@
+{% load static %}
+{% load tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Salaried Management</title>
+
+
+    <link rel='stylesheet prefetch' href='{% static 'css/materialize.min.css' %}'>
+    <link rel='stylesheet prefetch' href='{% static 'font/Material-Design-Icons.woff' %}'>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link href="{% static 'css/icon.css' %}" rel="stylesheet">
+
+
+    <script src='{% static 'js/jquery-2.2.4.min.js' %}'></script>
+    <script src='{% static 'js/jquery.formset.js' %}'></script>
+    <script src='{% static 'js/materialize.min.js' %}'></script>
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
+
+<body>
+<ul id="slide-out" class="side-nav fixed z-depth-2">
+    <li class="center no-padding user-details">
+        <div>
+            <div class="row">
+                <img style="    margin-bottom: 20px;margin-top: 20px;width: 60px;margin-bottom: -22px;" width="100"
+                     height="100"
+                     src="/static/imgs/avatar.png"
+                     class="circle responsive-img"/>
+                {% if user.is_authenticated %}
+                    <p class="white-text"
+                       style="font-family: inherit;font-size: 17px;">{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </li>
+
+    <li class="{% active '^/$' %}">
+        <a class="waves-effect waves-cyan" href="{% url 'panel.index' %}">
+            {% comment %}<i class="material-icons">dashboard</i>{% endcomment %}
+            <i class="material-icons">dashboard</i>
+            <b>Dashboard</b>
+        </a>
+    </li>
+    {% if request.user.is_superuser %}
+
+        <li class="{% active 'user.index' %}">
+        <a class="waves-effect" href="{% url 'user.index' %}">
+            <i class="material-icons">person</i>
+            <b>Users</b>
+        </a>
+    {% endif %}
+    </li>
+    <li class="{% active 'salaried.index' %}">
+        <a class="waves-effect" href="{% url 'salaried.index' %}">
+            <i class="material-icons">people</i>
+            <b>Salaried</b>
+        </a>
+    </li>
+    <li class="{% active 'bu.index' %}">
+        <a class="waves-effect" href="{% url 'bu.index' %}">
+            <i class="material-icons">business_center</i>
+            <b>Business unit</b>
+        </a>
+    </li>
+</ul>
+
+<header>
+    <ul class="dropdown-content" id="user_dropdown">
+        <li><a class="indigo-text" href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+
+    <nav class="cyan" role="navigation">
+        <div class="nav-wrapper">
+            <a data-activates="slide-out" class="button-collapse show-on-" href="#!"><img
+                    style="margin-top: 17px; margin-left: 5px;"
+                    src="https://res.cloudinary.com/dacg0wegv/image/upload/t_media_lib_thumb/v1463989873/smaller-main-logo_3_bm40iv.gif"/></a>
+
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a class='right dropdown-button' href='' data-activates='user_dropdown'><i class=' material-icons'>account_circle</i></a>
+                </li>
+            </ul>
+
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        </div>
+    </nav>
+
+    {#    <nav>#}
+    {#        <div class="nav-wrapper grey lighten-3">#}
+    {#            <a style="margin-left: 20px;" class="breadcrumb cyan-text" href="{% url 'panel.index' %}">Admin</a>#}
+    {#            <a class="breadcrumb cyan-text" href="#!">Index</a>#}
+    {##}
+    {#            <div style="margin-right: 20px;" id="timestamp" class="cyan-text right"></div>#}
+    {#        </div>#}
+    {##}
+    {#    </nav>#}
+</header>
+
+<main>
+
+    {% if messages %}
+        <script>
+            $(document).ready(function () {
+                {% for message in messages %}
+                    Materialize.toast('{{ message }}', 4000)
+                {% endfor %}
+            })
+
+        </script>
+    {% endif %}
+    {% block content %}
+
+    {% endblock %}
+</main>
+
+{#<footer class="page-footer" style="height:70px;background-color:#00bcd4;">#}
+{##}
+{#    <div class="container">#}
+{##}
+{#    </div>#}
+{#</footer>#}
+
+<script>
+    $('.button-collapse').sideNav();
+
+    $('.collapsible').collapsible();
+
+    $('select').material_select();
+</script>
+</body>
+
+</html>
+
+
